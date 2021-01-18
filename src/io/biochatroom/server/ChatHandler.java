@@ -31,11 +31,13 @@ public class ChatHandler implements Runnable{
       //阻塞式读取，除非读到值或者读取完了一行。
       while ((msg = bufferedReader.readLine())!=null) {
         String fwdMsg = "客户端:[" + socket.getPort() + "]发送的消息为:" + msg + "\n";
+        System.out.println(fwdMsg);
         chatServer.forwardMessage(socket, fwdMsg);
         if (chatServer.readyToQuit(fwdMsg)) {
           break;
         }
       }
+      System.out.println("msg为:" + msg);
     } catch (IOException e) {
       e.printStackTrace();
     }finally {

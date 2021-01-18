@@ -8,6 +8,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * 聊天室的客户端服务器
@@ -22,6 +24,7 @@ public class ChatServer {
 
   ServerSocket serverSocket = null;
   Map<Integer, Writer> connectedClients = null;
+  private ExecutorService executorService;
 
   public static void main(String[] args) {
     ChatServer chatServer = new ChatServer();
@@ -30,6 +33,7 @@ public class ChatServer {
 
   public ChatServer() {
     this.connectedClients = new HashMap<>();
+    executorService = Executors.newFixedThreadPool(10);
   }
 
   public synchronized void addClient(Socket socket) throws IOException {
@@ -72,7 +76,7 @@ public class ChatServer {
         //调用者调用后的状态为阻塞的
         Socket socket = serverSocket.accept();
         //开启线程创建chatHandler
-        new Thread(new ChatHandler(this, socket)).start();
+        executorService.execute(new ChatHandler(this, socket));
       }
     } catch (IOException e) {
       e.printStackTrace();

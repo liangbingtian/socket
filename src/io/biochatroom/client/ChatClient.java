@@ -17,7 +17,7 @@ public class ChatClient {
 
   private static final String DEFAULT_SEVER_HOST = "127.0.0.1";
   private static final Integer DEFAULT_SEVER_PORT = 8888;
-  private static final String QUIT = "QUIT";
+  private static final String QUIT = "quit";
 
   private BufferedReader bufferedReader;
 
@@ -63,7 +63,7 @@ public class ChatClient {
 
   public void start() {
     try {
-      Socket socket = new Socket(DEFAULT_SEVER_HOST, DEFAULT_SEVER_PORT);
+      socket = new Socket(DEFAULT_SEVER_HOST, DEFAULT_SEVER_PORT);
       bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
       bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 
